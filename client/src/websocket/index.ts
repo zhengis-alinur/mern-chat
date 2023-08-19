@@ -21,6 +21,7 @@ export const emitNewMessage = (message: string) => {
 	socket.emit('newMessage', {
 		text: extractText(message),
 		tags: extractHashtags(message),
+		userId: getUserId()
 	});
 };
 

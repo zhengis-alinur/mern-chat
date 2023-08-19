@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const messageSchema = new mongoose.Schema({
 	text: String,
 	tags: [String],
+	userId: mongoose.Types.ObjectId,
 	createdAt: {
 		type: Date,
 		default: Date.now,
