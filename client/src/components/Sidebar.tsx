@@ -37,7 +37,9 @@ const Sidebar = () => {
 	};
 
 	const onDeleteTag = (tag: string) => {
-		onSelectTag(tag);
+		if(selectedTags.includes(tag)) {
+			onSelectTag(tag);
+		}
 		emitDeleteTag(tag);
 	};
 
@@ -61,6 +63,7 @@ const Sidebar = () => {
 								{tag}
 								<CloseButton
 									onClick={(event) => {
+										event.preventDefault();
 										event.stopPropagation();
 										onDeleteTag(tag);
 									}}

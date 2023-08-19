@@ -54,23 +54,23 @@ io.on('connection', async (socket) => {
 	socket.on('userId', async (userId) => {
 		if (!userId) {
 			userId = new mongoose.Types.ObjectId();
-			createUser(userId);
+			await createUser(userId);
 		}
-			getUserTags(userId)
-				.then((tags) => {
-					socket.emit('userTags', tags);
-				})
-				.catch((error) => {
-					console.error('Error fetching usertags:', error);
-				});
-			socket.emit('setUser', userId);
+		getUserTags(userId)
+			.then((tags) => {
+				socket.emit('userTags', tags);
+			})
+			.catch((error) => {
+				console.error('Error fetching usertags:', error);
+			});
+		socket.emit('setUser', userId);
 	});
 
 	socket.on('newMessage', async (data) => {
 		createMessage(data)
 			.then(({message, tags}) => {
-				socket.emit('newMessage', message);
-				socket.emit('tags', tags);
+				io.emit('newMessage', message);
+				io.emit('tags', tags);
 			})
 			.catch((error) => {
 				console.error('Error creating a message:', error);
@@ -128,7 +128,7 @@ io.on('connection', async (socket) => {
 			.then((userTags) => {
 				if (userTags) {
 					socket.emit('userTags', userTags);
-					socket.emit('newTag', data.name);
+					socket.io('newTag', data.name);
 				}
 			})
 			.catch((error) => {

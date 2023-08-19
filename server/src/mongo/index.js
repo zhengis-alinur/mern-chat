@@ -89,6 +89,7 @@ const getUserTags = async (userId) => {
 		if(user) {
 			return user.tags;
 		}
+		return [];
 	} catch (error) {
 		console.error(error);
 		throw error;
